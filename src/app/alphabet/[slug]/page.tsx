@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
 import { RecordCompare } from "@/components/RecordCompare";
 import { SoundButton } from "@/components/SoundButton";
+import { WritingSlate } from "@/components/WritingSlate";
 import { alphabet, getLetter, getNeighbours } from "@/content/alphabet";
 import { contrasts } from "@/content/pronunciation";
 import { absoluteUrl, site } from "@/lib/site";
@@ -182,6 +183,19 @@ async function LetterContent({ params }: Props) {
           )}
         </div>
       </article>
+
+      <section aria-labelledby="write-it" className="rounded-3xl bg-surface p-6 shadow-sm">
+        <h2 id="write-it" className="mb-1 text-center text-2xl font-bold">
+          <span aria-hidden>✍️</span> Write it
+        </h2>
+        <p className="mb-4 text-center text-muted">
+          Trace <span lang="ml" className="font-ml">{letter.glyph}</span> with your finger or mouse.{" "}
+          <Link href={`/write#${letter.slug}`} className="underline underline-offset-4">
+            Practise more letters →
+          </Link>
+        </p>
+        <WritingSlate key={letter.slug} glyph={letter.glyph} label={letter.roman} />
+      </section>
 
       <nav aria-label="Letter navigation" className="flex justify-between gap-4 py-4">
         {prev ? (

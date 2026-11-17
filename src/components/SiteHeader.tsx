@@ -3,9 +3,10 @@ import { Mascot } from "./Mascot";
 import { site } from "@/lib/site";
 
 const nav = [
-  { href: "/plan", label: "Daily plan" },
-  { href: "/alphabet", label: "Alphabet" },
-  { href: "/pronunciation", label: "Pronunciation" },
+  { href: "/plan", label: "Daily plan", short: "Plan" },
+  { href: "/alphabet", label: "Alphabet", short: "Letters" },
+  { href: "/write", label: "Write", short: "Write" },
+  { href: "/pronunciation", label: "Pronunciation", short: "Sounds" },
 ];
 
 export function SiteHeader() {
@@ -14,7 +15,7 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2">
         <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-ink">
           <Mascot size={44} />
-          <span>{site.name}</span>
+          <span className="sr-only sm:not-sr-only">{site.name}</span>
         </Link>
         <nav aria-label="Main">
           <ul className="flex gap-1 sm:gap-2">
@@ -22,9 +23,10 @@ export function SiteHeader() {
               <li key={n.href}>
                 <Link
                   href={n.href}
-                  className="rounded-full px-3 py-2 text-base font-semibold text-ink hover:bg-surface sm:px-4"
+                  className="block whitespace-nowrap rounded-full px-2 py-2 text-base font-semibold text-ink hover:bg-surface sm:px-4"
                 >
-                  {n.label}
+                  <span className="lg:hidden">{n.short}</span>
+                  <span className="hidden lg:inline">{n.label}</span>
                 </Link>
               </li>
             ))}
