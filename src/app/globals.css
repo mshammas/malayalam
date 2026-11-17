@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Phones and tablets held sideways: screen height is scarce, so card layouts get denser. */
+@custom-variant land {
+  @media (orientation: landscape) and (pointer: coarse) { @slot; }
+  @media (orientation: landscape) and (max-height: 500px) { @slot; }
+}
+
 :root {
   --bg: #fff8ec;
   --surface: #ffffff;

@@ -50,7 +50,7 @@ export function WritePractice({ vowels, consonants }: Props) {
   const next = all[index + 1];
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_20rem]">
+    <div className="grid gap-8 lg:grid-cols-[1fr_20rem] land:grid-cols-[1fr_minmax(14rem,20rem)] land:gap-4">
       <section aria-label="Writing slate" className="flex flex-col items-center gap-4">
         <div className="flex items-center gap-4">
           <span lang="ml" className="font-ml text-6xl leading-none">

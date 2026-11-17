@@ -32,7 +32,7 @@ export default function Home() {
         }}
       />
 
-      <section className="flex flex-col items-center gap-6 py-12 text-center sm:py-16">
+      <section className="flex flex-col items-center gap-6 py-12 text-center sm:py-16 land:gap-3 land:py-6">
         <Mascot size={140} className="animate-bob" />
         <h1 className="max-w-3xl text-4xl font-extrabold leading-tight sm:text-6xl">
           Learn <span lang="ml" className="font-fun text-brand">മലയാളം</span> the fun way!
@@ -54,9 +54,9 @@ export default function Home() {
         <h2 id="how" className="mb-8 text-center text-2xl font-bold sm:text-3xl">
           How you&apos;ll learn
         </h2>
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 land:grid-cols-4 land:gap-3">
           {features.map((f) => (
-            <li key={f.title} className="rounded-3xl bg-surface p-6 shadow-sm">
+            <li key={f.title} className="rounded-3xl bg-surface p-6 shadow-sm land:p-4">
               <span aria-hidden className="text-4xl">
                 {f.emoji}
               </span>

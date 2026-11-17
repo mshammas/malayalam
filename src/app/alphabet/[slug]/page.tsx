@@ -44,9 +44,9 @@ export default function LetterPage({ params }: Props) {
 
 function LetterSkeleton() {
   return (
-    <div aria-hidden className="grid gap-8 py-12 lg:grid-cols-2">
-      <div className="h-96 animate-pulse rounded-3xl bg-surface" />
-      <div className="h-96 animate-pulse rounded-3xl bg-surface" />
+    <div aria-hidden className="grid gap-8 py-12 lg:grid-cols-2 land:grid-cols-2 land:gap-4 land:py-4">
+      <div className="h-96 animate-pulse rounded-3xl bg-surface land:h-[70dvh]" />
+      <div className="h-96 animate-pulse rounded-3xl bg-surface land:h-[70dvh]" />
     </div>
   );
 }
@@ -89,23 +89,23 @@ async function LetterContent({ params }: Props) {
         }}
       />
 
-      <nav aria-label="Breadcrumb" className="pt-6 text-sm text-muted">
+      <nav aria-label="Breadcrumb" className="pt-6 text-sm text-muted land:pt-2">
         <Link href="/alphabet" className="underline underline-offset-4">
           ← All letters
         </Link>
       </nav>
 
-      <article className="grid gap-8 py-6 lg:grid-cols-2">
-        <div className="flex flex-col items-center rounded-3xl bg-surface p-8 shadow-sm">
+      <article className="grid gap-8 py-6 lg:grid-cols-2 land:grid-cols-2 land:gap-4 land:py-3">
+        <div className="flex flex-col items-center rounded-3xl bg-surface p-8 shadow-sm land:self-start land:p-4">
           <p className="text-sm font-semibold uppercase tracking-wide text-muted">
             {letter.kind === "vowel" ? "Vowel" : "Consonant"}
             {letter.tricky && " · ⭐ Tricky sound"}
           </p>
-          <h1 className="my-4 text-center">
-            <span lang="ml" className="block font-ml text-[9rem] leading-none sm:text-[11rem]">
+          <h1 className="my-4 text-center land:my-1">
+            <span lang="ml" className="block font-ml text-[9rem] leading-none sm:text-[11rem] land:text-[clamp(4.5rem,26dvh,11rem)]">
               {letter.glyph}
             </span>
-            <span className="mt-2 block text-3xl font-bold">{letter.roman}</span>
+            <span className="mt-2 block text-3xl font-bold land:mt-0 land:text-2xl">{letter.roman}</span>
           </h1>
           <SoundButton audioPath={`letters/${letter.slug}`} text={letter.glyph} label={`Hear ${letter.roman}`} />
           <p className="mt-2 text-center text-lg">
@@ -113,8 +113,8 @@ async function LetterContent({ params }: Props) {
           </p>
         </div>
 
-        <div className="flex flex-col gap-6">
-          <section aria-labelledby="example" className="rounded-3xl bg-surface p-6 shadow-sm">
+        <div className="flex flex-col gap-6 land:gap-4">
+          <section aria-labelledby="example" className="rounded-3xl bg-surface p-6 shadow-sm land:p-4">
             <h2 id="example" className="text-xl font-bold">
               Example word
             </h2>
@@ -140,7 +140,7 @@ async function LetterContent({ params }: Props) {
           </section>
 
           {letter.tip && (
-            <section aria-labelledby="tip" className="rounded-3xl border-2 border-sun bg-surface p-6">
+            <section aria-labelledby="tip" className="rounded-3xl border-2 border-sun bg-surface p-6 land:p-4">
               <h2 id="tip" className="text-xl font-bold">
                 <span aria-hidden>🐦</span> Vezhu&apos;s tip
               </h2>
@@ -151,7 +151,7 @@ async function LetterContent({ params }: Props) {
           <RecordCompare audioPath={`letters/${letter.slug}`} />
 
           {related.length > 0 && (
-            <section aria-labelledby="dont-mix" className="rounded-3xl bg-surface p-6 shadow-sm">
+            <section aria-labelledby="dont-mix" className="rounded-3xl bg-surface p-6 shadow-sm land:p-4">
               <h2 id="dont-mix" className="text-xl font-bold">
                 Don&apos;t mix it up with…
               </h2>
@@ -184,7 +184,7 @@ async function LetterContent({ params }: Props) {
         </div>
       </article>
 
-      <section aria-labelledby="write-it" className="rounded-3xl bg-surface p-6 shadow-sm">
+      <section aria-labelledby="write-it" className="rounded-3xl bg-surface p-6 shadow-sm land:p-4">
         <h2 id="write-it" className="mb-1 text-center text-2xl font-bold">
           <span aria-hidden>✍️</span> Write it
         </h2>

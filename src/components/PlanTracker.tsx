@@ -77,7 +77,7 @@ export function PlanTracker() {
                     type="button"
                     onClick={() => setPreview(p.id)}
                     aria-pressed={active}
-                    className={`flex w-full flex-col items-center gap-1 rounded-3xl border-4 bg-surface p-6 text-center shadow-sm transition hover:-translate-y-1 ${
+                    className={`flex w-full flex-col items-center gap-1 rounded-3xl border-4 bg-surface p-6 text-center land:p-4 shadow-sm transition hover:-translate-y-1 ${
                       active ? "border-brand" : "border-transparent"
                     }`}
                   >
@@ -151,7 +151,7 @@ export function PlanTracker() {
         <h2 id="schedule" className="mb-4 text-2xl font-bold">
           Your {schedule.length}-day path
         </h2>
-        <ol className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
+        <ol className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6 land:grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] land:gap-2">
           {schedule.map((d) => {
             const isDone = done.has(d.day);
             const isToday = today?.day === d.day;
@@ -163,7 +163,7 @@ export function PlanTracker() {
                   onClick={() => toggle(d.day)}
                   aria-pressed={saved ? isDone : undefined}
                   title={saved ? (isDone ? "Tap to untick" : "Tap to mark done") : undefined}
-                  className={`flex h-full w-full flex-col items-center gap-1 rounded-2xl border-2 p-3 text-center transition enabled:hover:border-brand ${
+                  className={`flex h-full w-full flex-col items-center gap-1 rounded-2xl border-2 p-3 text-center land:p-2 transition enabled:hover:border-brand ${
                     isToday ? "border-brand bg-surface" : isDone ? "border-leaf bg-surface" : "border-line bg-surface/60"
                   }`}
                 >

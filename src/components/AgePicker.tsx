@@ -44,7 +44,7 @@ export function AgePicker() {
                 type="button"
                 onClick={() => choose(b.id)}
                 aria-pressed={active}
-                className={`flex w-full flex-col items-center gap-1 rounded-3xl border-4 bg-surface p-6 text-center shadow-sm transition hover:-translate-y-1 ${
+                className={`flex w-full flex-col items-center gap-1 rounded-3xl border-4 bg-surface p-6 text-center land:p-4 shadow-sm transition hover:-translate-y-1 ${
                   active ? "border-brand" : "border-transparent"
                 }`}
               >
