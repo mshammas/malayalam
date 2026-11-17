@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "studio": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/studio/server.ts",
+    "audio:manifest": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/audio-manifest.ts"
   },
   "dependencies": {
     "next": "16.4.6",

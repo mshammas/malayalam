@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Vezhu Recording Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #fff8ec; --surface: #fff; --ink: #2b2118; --muted: #6b5a4a; --line: #f0e2cc;
+    --brand: #e8590c; --leaf: #2f9e44; --sky: #1c7ed6; --sun: #fab005; --rec: #e03131;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1a1410; --surface: #251d17; --ink: #f8efe3; --muted: #c4b19c; --line: #3a2e24;
+      --brand: #ff8a3d; --leaf: #51cf66; --sky: #4dabf7; --sun: #ffd43b; --rec: #ff6b6b; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, sans-serif; }
+  .ml { font-family: Manjari, sans-serif; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 20px; border-bottom: 1px solid var(--line); }
+  header h1 { margin: 0; font-size: 20px; }
+  .progress { flex: 1; max-width: 420px; }
+  .bar { height: 10px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .bar > i { display: block; height: 100%; background: var(--leaf); width: 0; transition: width .3s; }
+  .progress small { color: var(--muted); }
+  .layout { display: grid; grid-template-columns: 300px 1fr; min-height: calc(100vh - 62px); }
+  aside { border-right: 1px solid var(--line); overflow-y: auto; max-height: calc(100vh - 62px); }
+  .filters { position: sticky; top: 0; background: var(--bg); padding: 12px; border-bottom: 1px solid var(--line); display: flex; gap: 8px; }
+  select { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; }
+  ul { list-style: none; margin: 0; padding: 6px; }
+  li button { width: 100%; display: flex; align-items: center; gap: 10px; padding: 8px 10px; border: 0; border-radius: 10px; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  li button:hover { background: var(--surface); }
+  li button[aria-current="true"] { background: var(--surface); outline: 2px solid var(--brand); }
+  li .ml { font-size: 22px; min-width: 64px; }
+  li small { color: var(--muted); margin-left: auto; font-size: 12px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .dot.recorded { background: var(--leaf); } .dot.tts { background: var(--sun); } .dot.missing { background: var(--rec); }
+  main { padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .card { width: 100%; max-width: 720px; background: var(--surface); border-radius: 24px; padding: 28px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .meta { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
+  .big { font-size: clamp(96px, 16vw, 180px); line-height: 1.1; margin: 8px 0; }
+  .roman { font-size: 28px; font-weight: 700; }
+  .meaning { color: var(--muted); }
+  .tip { margin-top: 14px; padding: 12px 16px; border: 2px solid var(--sun); border-radius: 14px; text-align: left; }
+  .tip:empty { display: none; }
+  .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .btn { border: 2px solid var(--line); background: var(--surface); color: var(--ink); padding: 12px 18px; border-radius: 99px; font: 600 16px system-ui, sans-serif; cursor: pointer; }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+  .btn.primary { background: var(--rec); border-color: var(--rec); color: #fff; min-width: 160px; }
+  .btn.primary.recording { animation: pulse 1s infinite; }
+  .btn.save { background: var(--leaf); border-color: var(--leaf); color: #fff; }
+  kbd { font: 12px ui-monospace, monospace; padding: 1px 6px; border: 1px solid currentColor; border-radius: 5px; opacity: .7; margin-left: 6px; }
+  .meter { width: 100%; max-width: 720px; height: 14px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .meter > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--leaf), var(--sun) 70%, var(--rec)); }
+  #status { min-height: 24px; color: var(--muted); }
+  #status.error { color: var(--rec); }
+  .help { max-width: 720px; color: var(--muted); font-size: 14px; }
+  :focus-visible { outline: 3px solid var(--sky); outline-offset: 2px; }
+  @keyframes pulse { 50% { opacity: .65; } }
+  @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } aside { max-height: 240px; border-right: 0; border-bottom: 1px solid var(--line); } }
+</style>
+</head>
+<body>
+<header>
+  <h1>🎙️ Vezhu Recording Studio</h1>
+  <div class="progress">
+    <div class="bar"><i id="progressBar"></i></div>
+    <small id="progressText">Loading…</small>
+  </div>
+</header>
+
+<div class="layout">
+  <aside>
+    <div class="filters">
+      <select id="order" aria-label="Order">
+        <option value="tricky">Tricky sounds first</option>
+        <option value="site">Site order</option>
+      </select>
+      <select id="show" aria-label="Show">
+        <option value="todo">Not recorded yet</option>
+        <option value="all">All clips</option>
+        <option value="recorded">Recorded</option>
+      </select>
+    </div>
+    <ul id="list"></ul>
+  </aside>
+
+  <main>
+    <div class="card">
+      <div class="meta" id="meta"></div>
+      <div class="big ml" id="text" lang="ml"></div>
+      <div class="roman" id="roman"></div>
+      <div class="meaning" id="meaning"></div>
+      <div class="tip" id="tip"></div>
+    </div>
+
+    <div class="meter" aria-hidden="true"><i id="level"></i></div>
+
+    <div class="controls">
+      <button class="btn" id="playCurrent">▶ Current<kbd>L</kbd></button>
+      <button class="btn primary" id="record">● Record<kbd>Space</kbd></button>
+      <button class="btn" id="playTake" disabled>▶ My take<kbd>P</kbd></button>
+      <button class="btn save" id="save" disabled>✓ Save &amp; next<kbd>Enter</kbd></button>
+    </div>
+    <div class="controls">
+      <button class="btn" id="prev">← Previous</button>
+      <button class="btn" id="next">Skip →</button>
+    </div>
+    <p id="status" role="status" aria-live="polite"></p>
+    <p class="help">
+      Say the clip clearly at a natural speed, as you would to a child learning it. For a single letter, say just its
+      sound, not its name. Leave a short pause before you speak. Silence is trimmed automatically.
+      <br />🟢 recorded by a person · 🟡 text-to-speech placeholder · 🔴 missing
+    </p>
+  </main>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let clips = [];
+let view = [];
+let current = null;
+let stream = null, recorder = null, chunks = [], take = null, takeUrl = null;
+let audioCtx = null, analyser = null, rafId = 0;
+const player = new Audio();
+
+const prefs = (() => { try { return JSON.parse(localStorage.getItem("studio.prefs") || "{}"); } catch { return {}; } })();
+if (prefs.order) $("order").value = prefs.order;
+if (prefs.show) $("show").value = prefs.show;
+function savePrefs() {
+  try { localStorage.setItem("studio.prefs", JSON.stringify({ order: $("order").value, show: $("show").value })); } catch {}
+}
+
+function setStatus(msg, error = false) { $("status").textContent = msg; $("status").className = error ? "error" : ""; }
+
+async function load() {
+  const res = await fetch("/api/clips");
+  clips = await res.json();
+  render();
+  if (!current) select(view[0]?.path);
+}
+
+function computeView() {
+  let list = clips.map((c, i) => ({ ...c, i }));
+  const show = $("show").value;
+  if (show === "todo") list = list.filter((c) => c.status !== "recorded" || c.path === current?.path);
+  if (show === "recorded") list = list.filter((c) => c.status === "recorded");
+  if ($("order").value === "tricky") {
+    const rank = { words: 0, letters: 1, examples: 2 };
+    list.sort((a, b) => (b.tricky - a.tricky) || (a.tricky && b.tricky ? rank[a.group] - rank[b.group] : 0) || a.i - b.i);
+  }
+  return list;
+}
+
+function render() {
+  view = computeView();
+  const done = clips.filter((c) => c.status === "recorded").length;
+  $("progressBar").style.width = `${(done / clips.length) * 100}%`;
+  $("progressText").textContent = `${done} of ${clips.length} recorded by a person`;
+  $("list").innerHTML = "";
+  for (const c of view) {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-current", String(c.path === current?.path));
+    b.innerHTML = `<span class="dot ${c.status}" title="${c.status}"></span><span class="ml" lang="ml"></span><span></span><small>${c.group}</small>`;
+    b.children[1].textContent = c.text;
+    b.children[2].textContent = c.roman;
+    b.onclick = () => select(c.path);
+    li.appendChild(b);
+    $("list").appendChild(li);
+  }
+  if (!view.length) $("list").innerHTML = `<li style="padding:16px;color:var(--muted)">🎉 Nothing left in this list!</li>`;
+}
+
+function select(path) {
+  if (!path) return;
+  if (recorder?.state === "recording") stopRecording();
+  current = clips.find((c) => c.path === path);
+  clearTake();
+  $("meta").textContent = `${current.group} · ${current.path}${current.tricky ? " · ⭐ tricky" : ""} · ${current.status === "recorded" ? "✅ recorded" : current.status === "tts" ? "TTS placeholder" : "missing"}`;
+  $("text").textContent = current.text;
+  $("roman").textContent = current.roman;
+  $("meaning").textContent = current.meaning;
+  $("tip").textContent = current.tip ? `💡 ${current.tip}` : "";
+  $("playCurrent").disabled = current.status === "missing";
+  setStatus("");
+  render();
+  document.querySelector('li button[aria-current="true"]')?.scrollIntoView({ block: "nearest" });
+}
+
+function move(delta) {
+  const i = view.findIndex((c) => c.path === current?.path);
+  const nextClip = view[Math.max(0, Math.min(view.length - 1, i + delta))];
+  if (nextClip) select(nextClip.path);
+}
+
+function clearTake() {
+  take = null;
+  if (takeUrl) URL.revokeObjectURL(takeUrl);
+  takeUrl = null;
+  $("playTake").disabled = true;
+  $("save").disabled = true;
+}
+
+async function ensureMic() {
+  if (stream) return stream;
+  stream = await navigator.mediaDevices.getUserMedia({
+    audio: { echoCancellation: false, noiseSuppression: true, autoGainControl: false, channelCount: 1 },
+  });
+  audioCtx = new AudioContext();
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 1024;
+  audioCtx.createMediaStreamSource(stream).connect(analyser);
+  return stream;
+}
+
+function meter() {
+  const buf = new Float32Array(analyser.fftSize);
+  const tick = () => {
+    analyser.getFloatTimeDomainData(buf);
+    let peak = 0;
+    for (const v of buf) peak = Math.max(peak, Math.abs(v));
+    $("level").style.width = `${Math.min(100, peak * 140)}%`;
+    rafId = requestAnimationFrame(tick);
+  };
+  tick();
+}
+
+async function startRecording() {
+  try {
+    await ensureMic();
+  } catch {
+    setStatus("Microphone permission is needed to record.", true);
+    return;
+  }
+  player.pause();
+  clearTake();
+  chunks = [];
+  recorder = new MediaRecorder(stream);
+  recorder.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+  recorder.onstop = () => {
+    cancelAnimationFrame(rafId);
+    $("level").style.width = "0";
+    take = new Blob(chunks, { type: recorder.mimeType });
+    takeUrl = URL.createObjectURL(take);
+    $("playTake").disabled = false;
+    $("save").disabled = false;
+    setStatus("Listen back with P. Press Enter to save, or Space to try again.");
+    playTake();
+  };
+  recorder.start();
+  meter();
+  $("record").classList.add("recording");
+  $("record").innerHTML = "■ Stop<kbd>Space</kbd>";
+  setStatus("Recording… press Space to stop.");
+}
+
+function stopRecording() {
+  if (recorder?.state === "recording") recorder.stop();
+  $("record").classList.remove("recording");
+  $("record").innerHTML = "● Record<kbd>Space</kbd>";
+}
+
+function toggleRecord() { recorder?.state === "recording" ? stopRecording() : startRecording(); }
+
+function playTake() { if (takeUrl) { player.src = takeUrl; player.play(); } }
+
+function playCurrent() {
+  if (!current || current.status === "missing") return;
+  player.src = `/audio/${current.path}.mp3?t=${Date.now()}`;
+  player.play().catch(() => setStatus("Couldn't play the current audio.", true));
+}
+
+async function save() {
+  if (!take || !current) return;
+  $("save").disabled = true;
+  setStatus("Saving…");
+  try {
+    const res = await fetch(`/api/save?path=${encodeURIComponent(current.path)}`, {
+      method: "POST",
+      headers: { "content-type": take.type || "application/octet-stream" },
+      body: take,
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Save failed");
+    current.status = "recorded";
+    clips.find((c) => c.path === current.path).status = "recorded";
+    const savedPath = current.path;
+    setStatus(`Saved ${savedPath} (${data.duration.toFixed(2)}s) ✅`);
+    const i = view.findIndex((c) => c.path === savedPath);
+    render();
+    const nextClip = view.find((c, j) => j >= i && c.path !== savedPath) ?? view.find((c) => c.path !== savedPath);
+    if (nextClip) select(nextClip.path);
+    setStatus(`Saved ${savedPath} (${data.duration.toFixed(2)}s) ✅`);
+  } catch (e) {
+    $("save").disabled = false;
+    setStatus(e.message, true);
+  }
+}
+
+$("record").onclick = toggleRecord;
+$("playTake").onclick = playTake;
+$("playCurrent").onclick = playCurrent;
+$("save").onclick = save;
+$("prev").onclick = () => move(-1);
+$("next").onclick = () => move(1);
+$("order").onchange = $("show").onchange = () => { savePrefs(); render(); };
+
+document.addEventListener("keydown", (e) => {
+  if (e.target.closest("select") || e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (k === " ") { e.preventDefault(); toggleRecord(); }
+  else if (k === "enter") { e.preventDefault(); save(); }
+  else if (k === "p") playTake();
+  else if (k === "l") playCurrent();
+  else if (k === "arrowright" || k === "arrowdown") { e.preventDefault(); move(1); }
+  else if (k === "arrowleft" || k === "arrowup") { e.preventDefault(); move(-1); }
+});
+
+load().catch(() => setStatus("Couldn't reach the studio server. Is `npm run studio` running?", true));
+</script>
+</body>
+</html>

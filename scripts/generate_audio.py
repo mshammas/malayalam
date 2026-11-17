@@ -2,8 +2,9 @@
 """Generate PLACEHOLDER Malayalam audio with Microsoft neural TTS (edge-tts).
 
 These clips are stand-ins until native-speaker recordings exist (see PLAN.md).
-Human recordings dropped into public/audio/ replace them; existing files are
-skipped unless --force is given.
+Existing files are skipped unless --force is given. Clips listed in
+scripts/recordings.json are human recordings (made with `npm run studio`) and
+are NEVER overwritten, even with --force.
 
 Usage:
     pip install edge-tts          # in a virtualenv; ffmpeg must be on PATH
@@ -19,7 +20,9 @@ from pathlib import Path
 
 import edge_tts
 
-OUT = Path(__file__).resolve().parent.parent / "public" / "audio"
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "public" / "audio"
+RECORDINGS = ROOT / "scripts" / "recordings.json"
 
 # Trim silence gently (-60 dB keeps soft endings like the tail of ഴ), add a short
 # lead-in so browsers don't clip the first sound, normalise loudness, mono 64 kbps MP3
@@ -32,8 +35,17 @@ FILTER = (
 )
 
 
-async def make(clip: dict, voice: str, rate: str, force: bool) -> str:
+def human_recordings() -> set:
+    try:
+        return set(json.loads(RECORDINGS.read_text()))
+    except FileNotFoundError:
+        return set()
+
+
+async def make(clip: dict, voice: str, rate: str, force: bool, human: set) -> str:
     dest = OUT / f"{clip['path']}.mp3"
+    if clip["path"] in human:
+        return f"human {clip['path']}"
     if dest.exists() and not force:
         return f"skip  {clip['path']}"
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -56,13 +68,14 @@ async def main() -> None:
     args = ap.parse_args()
 
     clips = json.loads(Path(args.manifest).read_text())
+    human = human_recordings()
     sem = asyncio.Semaphore(4)
 
     async def run(c):
         async with sem:
             for attempt in range(3):
                 try:
-                    return await make(c, args.voice, args.rate, args.force)
+                    return await make(c, args.voice, args.rate, args.force, human)
                 except Exception as e:  # network hiccups
                     if attempt == 2:
                         return f"FAIL  {c['path']}: {e}"

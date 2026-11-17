@@ -42,3 +42,6 @@ next-env.d.ts
 
 # python
 .venv/
+
+# recording studio raw takes
+/.studio-takes/
