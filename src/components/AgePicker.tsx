@@ -60,7 +60,13 @@ export function AgePicker() {
         })}
       </ul>
       {selected && (
-        <div className="mt-6 text-center">
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Link
+            href="/plan"
+            className="inline-block rounded-full border-2 border-line bg-surface px-8 py-4 text-lg font-bold shadow-sm hover:scale-105"
+          >
+            Pick a daily plan 📅
+          </Link>
           <Link
             href="/alphabet"
             className="inline-block rounded-full bg-brand px-8 py-4 text-lg font-bold text-brand-ink shadow-md hover:scale-105"

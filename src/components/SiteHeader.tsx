@@ -3,6 +3,7 @@ import { Mascot } from "./Mascot";
 import { site } from "@/lib/site";
 
 const nav = [
+  { href: "/plan", label: "Daily plan" },
   { href: "/alphabet", label: "Alphabet" },
   { href: "/pronunciation", label: "Pronunciation" },
 ];
