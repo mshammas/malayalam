@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SoundButton } from "@/components/SoundButton";
 import { getLetter } from "@/content/alphabet";
-import { contrasts } from "@/content/pronunciation";
-
-const toSlug = (s: string) =>
-  s.normalize("NFD").replace(/[^a-zA-Z]/g, "").toLowerCase();
+import { contrasts, wordSlug } from "@/content/pronunciation";
 
 export const metadata: Metadata = {
   title: "Malayalam Pronunciation for Kids: Master ഴ, ള, ട and More",
@@ -62,7 +59,7 @@ export default function PronunciationPage() {
                       {w.roman}: {w.en}
                     </span>
                     <div className="mt-2">
-                      <SoundButton audioPath={`words/${toSlug(w.roman)}`} text={w.ml} label={`Hear ${w.roman}`} size="sm" />
+                      <SoundButton audioPath={`words/${wordSlug(w.roman)}`} text={w.ml} label={`Hear ${w.roman}`} size="sm" />
                     </div>
                   </div>
                 ))}

@@ -21,3 +21,15 @@ Open http://localhost:3000.
 ## Environment
 
 - `NEXT_PUBLIC_SITE_URL`: the production URL, used for canonical URLs, the sitemap and structured data.
+
+## Audio
+
+`public/audio/` holds **placeholder** clips made with Microsoft neural TTS (voice `ml-IN-MidhunNeural`, chosen because it pronounces ഴ correctly) through [edge-tts](https://github.com/rany2/edge-tts). Native-speaker recordings will replace them. A recording saved at the same path takes priority: the generator skips files that already exist.
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install edge-tts   # ffmpeg must be installed
+node scripts/audio-manifest.ts > /tmp/audio.json
+.venv/bin/python scripts/generate_audio.py /tmp/audio.json
+```
+
+The manifest is built from `src/content/`, so new letters or words get audio automatically. It fails if two different words would share one file.

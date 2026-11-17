@@ -1,5 +1,20 @@
 import type { SoundContrast } from "./types";
 
+// Keeps sound distinctions in ASCII so minimal pairs never collide (kiḻi ≠ kiḷi, paṭi ≠ paṭṭi).
+// Long vowels are doubled; "x" marks a retroflex / alveolar consonant (ṭ → tx, ḷ → lx).
+const ROMAN_TO_ASCII: Record<string, string> = {
+  ā: "aa", ī: "ii", ū: "uu", ē: "ee", ō: "oo", ṛ: "ru", ŭ: "u", ṃ: "m", ḥ: "h",
+  ḻ: "zh", ḷ: "lx", ṭ: "tx", ḍ: "dx", ṇ: "nx", ṟ: "rx", ṣ: "sx", ś: "sh", ñ: "ny", ṅ: "ng",
+};
+
+/** ASCII slug for a romanised word, used for audio file names: "kiḷi" → "kilxi", "kiḻi" → "kizhi" */
+export const wordSlug = (roman: string) =>
+  [...roman.normalize("NFC").toLowerCase()]
+    .map((ch) => ROMAN_TO_ASCII[ch] ?? ch)
+    .join("")
+    .normalize("NFD")
+    .replace(/[^a-z]/g, "");
+
 export const contrasts: SoundContrast[] = [
   {
     id: "zha",
