@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #fff8ec;
+  --surface: #ffffff;
+  --ink: #2b2118;
+  --muted: #6b5a4a;
+  --brand: #e8590c; /* hornbill beak orange */
+  --brand-ink: #ffffff;
+  --leaf: #2f9e44; /* Kerala green */
+  --sky: #1c7ed6;
+  --sun: #fab005;
+  --line: #f0e2cc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1410;
+    --surface: #251d17;
+    --ink: #f8efe3;
+    --muted: #c4b19c;
+    --brand: #ff8a3d;
+    --brand-ink: #1a1410;
+    --leaf: #51cf66;
+    --sky: #4dabf7;
+    --sun: #ffd43b;
+    --line: #3a2e24;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-leaf: var(--leaf);
+  --color-sky: var(--sky);
+  --color-sun: var(--sun);
+  --color-line: var(--line);
+  --font-sans: var(--font-baloo), system-ui, sans-serif;
+  --font-ml: var(--font-manjari), var(--font-baloo), sans-serif;
+  --font-fun: var(--font-chilanka), var(--font-manjari), sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 3px solid var(--sky);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-bob { animation: bob 3s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
