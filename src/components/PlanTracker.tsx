@@ -62,10 +62,10 @@ export function PlanTracker() {
   }
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-10 land:gap-6">
       {!saved && (
         <section aria-labelledby="choose">
-          <h2 id="choose" className="mb-4 text-center text-2xl font-bold">
+          <h2 id="choose" className="mb-4 text-center text-2xl font-bold land:mb-2 land:text-xl">
             Pick your pace
           </h2>
           <ul className="grid gap-4 sm:grid-cols-3">
@@ -148,7 +148,7 @@ export function PlanTracker() {
       )}
 
       <section aria-labelledby="schedule">
-        <h2 id="schedule" className="mb-4 text-2xl font-bold">
+        <h2 id="schedule" className="mb-4 text-2xl font-bold land:mb-2 land:text-xl">
           Your {schedule.length}-day path
         </h2>
         <ol className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6 land:grid-cols-[repeat(auto-fill,minmax(7rem,1fr))] land:gap-2">

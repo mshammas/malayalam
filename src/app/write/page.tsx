@@ -12,11 +12,11 @@ export const metadata: Metadata = {
 export default function WritePage() {
   return (
     <>
-      <header className="py-10 text-center">
-        <h1 className="text-4xl font-extrabold sm:text-5xl">
+      <header className="py-10 text-center land:py-3">
+        <h1 className="text-4xl font-extrabold sm:text-5xl land:text-3xl">
           Learn to write <span lang="ml" className="font-ml text-brand">എഴുതാം</span>
         </h1>
-        <p className="mx-auto mt-3 max-w-xl text-lg text-muted">
+        <p className="mx-auto mt-3 max-w-xl text-lg text-muted land:mt-1 land:max-w-2xl land:text-base">
           Trace the grey letter on the slate with your finger or mouse. When it feels easy, hide the letter and
           write it on your own. Your drawings stay on this device.
         </p>
