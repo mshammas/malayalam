@@ -191,8 +191,8 @@ export const dialogues: Dialogue[] = [
     nugget: "These four are Sanskrit words. Day to day you'd say അമ്മ, അച്ഛൻ and ടീച്ചർ, but every Malayali knows this saying.",
     mood: "mass",
     vibe: "anyone",
-    // YouTube: THUNDER THINGS (fan edit)
-    youtube: { id: "EyaExigzPas", short: true },
+    // YouTube: TVNXT Malayalam full film; line at 1:01:50, trimmed to skip the crude line before it
+    youtube: { id: "yjaFvFuQ-QM", start: 3711, end: 3724 },
     reviewed: false,
   },
   {
@@ -200,14 +200,13 @@ export const dialogues: Dialogue[] = [
     film: "Premam",
     year: 2015,
     character: "George, to Malar",
-    ml: "സ്റ്റെപ്പ് കുറച്ചു കൂടെ ഈസി ആക്കാവോ?",
-    roman: "sṯeppŭ kuṟaccu kūṭe īsi ākkāvō?",
+    ml: "സ്റ്റെപ്പ് കുറച്ചുകൂടി ഈസി ആക്കാമോ?",
+    roman: "sṯeppŭ kuṟaccukūṭi īsi ākkāmō?",
     words: [
       { ml: "സ്റ്റെപ്പ്", roman: "sṯeppŭ", en: "(dance) steps", note: "English 'step' in Malayalam letters." },
-      { ml: "കുറച്ചു", roman: "kuṟaccu", en: "a little" },
-      { ml: "കൂടെ", roman: "kūṭe", en: "more" },
+      { ml: "കുറച്ചുകൂടി", roman: "kuṟaccukūṭi", en: "a little more", note: "കുറച്ചു (a little) + കൂടി (more), written as one word." },
       { ml: "ഈസി", roman: "īsi", en: "easy", note: "English again. Manglish!" },
-      { ml: "ആക്കാവോ", roman: "ākkāvō", en: "could you make it?", note: "The spoken form of ആക്കാമോ: ആക്കാം (can make) + ‑ഓ (question)." },
+      { ml: "ആക്കാമോ", roman: "ākkāmō", en: "could you make it?", note: "ആക്കാം (can make) + ‑ഓ (question)." },
     ],
     literal: "Steps a little more easy, could you make?",
     meaning: "Could you go a bit easier on the dance steps? George, completely out of his depth.",
@@ -215,8 +214,8 @@ export const dialogues: Dialogue[] = [
     nugget: "Put ‑ഓ on the end to turn a sentence into a question: ആക്കാം (I can make it) → ആക്കാമോ? (can you make it?).",
     mood: "comedy",
     vibe: "anyone",
-    // YouTube: Fun School (fan upload)
-    youtube: { id: "XTHkmG5jjVM", short: true },
+    // YouTube: TVNXT Malayalam full film; line at 1:28:21
+    youtube: { id: "yjaFvFuQ-QM", start: 5296, end: 5314 },
     reviewed: false,
   },
   {
@@ -269,8 +268,8 @@ export const dialogues: Dialogue[] = [
     nugget: "ഉണ്ട് means 'there is' or 'have'. Add അല്ലോ for 'obviously!': ഉണ്ട് → ഉണ്ടല്ലോ.",
     mood: "comedy",
     vibe: "anyone",
-    // YouTube: ASWIN YUVI (fan upload)
-    youtube: { id: "FeZftxwz_eM", short: true },
+    // YouTube: manoramaMAX (official) scene compilation; sister asks at 8:24, line at 8:28
+    youtube: { id: "b66hrtE2uf0", start: 503, end: 534 },
     reviewed: false,
   },
 ];
