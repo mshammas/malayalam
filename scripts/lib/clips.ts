@@ -1,9 +1,10 @@
 // Single source of truth for every audio clip the site plays.
 // Used by audio-manifest.ts (TTS generator) and the recording studio.
 import { alphabet } from "../../src/content/alphabet.ts";
+import { dialogues } from "../../src/content/dialogues.ts";
 import { contrasts, wordSlug } from "../../src/content/pronunciation.ts";
 
-export type ClipGroup = "letters" | "examples" | "words";
+export type ClipGroup = "letters" | "examples" | "words" | "dialogues";
 
 export interface Clip {
   /** Path under public/audio without extension, e.g. "letters/zha" */
@@ -57,6 +58,19 @@ export function buildClips(): Clip[] {
         });
       }
     }
+  }
+
+  for (const d of dialogues) {
+    if (!d.ml) continue;
+    clips.push({
+      path: `dialogues/${d.slug}`,
+      group: "dialogues",
+      text: d.ml,
+      roman: d.roman,
+      meaning: d.literal,
+      tip: `${d.film} (${d.year}), ${d.character}. Say it the way it's said in the film.`,
+      tricky: false,
+    });
   }
 
   // The same path for different text means two words would share one file: fail loudly

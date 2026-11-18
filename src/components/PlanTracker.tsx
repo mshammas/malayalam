@@ -3,34 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { buildSchedule, DEFAULT_PLAN, getPlan, plans, sessionSteps, type PlanDay, type PlanId } from "@/content/plans";
-
-const KEY = "vezhu.plan";
-
-interface Saved {
-  planId: PlanId;
-  /** Day numbers the learner has finished */
-  done: number[];
-}
-
-function load(): Saved | null {
-  try {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as Saved;
-    return getPlan(parsed.planId) && Array.isArray(parsed.done) ? parsed : null;
-  } catch {
-    return null;
-  }
-}
-
-function save(s: Saved | null) {
-  try {
-    if (s) localStorage.setItem(KEY, JSON.stringify(s));
-    else localStorage.removeItem(KEY);
-  } catch {
-    /* storage blocked: progress just won't persist */
-  }
-}
+import { loadPlan as load, savePlan as save, type SavedPlan as Saved } from "@/lib/planStorage";
 
 export function PlanTracker() {
   const [saved, setSaved] = useState<Saved | null>(null);

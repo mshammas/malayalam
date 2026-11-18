@@ -6,24 +6,25 @@ const nav = [
   { href: "/plan", label: "Daily plan", short: "Plan" },
   { href: "/alphabet", label: "Alphabet", short: "Letters" },
   { href: "/write", label: "Write", short: "Write" },
+  { href: "/dialogues", label: "Movie lines", short: "Movies" },
   { href: "/pronunciation", label: "Pronunciation", short: "Sounds" },
 ];
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-20 land:static border-b border-line bg-bg/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2 land:py-1">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2 sm:gap-4 land:py-1">
         <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-ink">
           <Mascot size={44} />
           <span className="sr-only sm:not-sr-only">{site.name}</span>
         </Link>
         <nav aria-label="Main">
-          <ul className="flex gap-1 sm:gap-2">
+          <ul className="flex sm:gap-2">
             {nav.map((n) => (
               <li key={n.href}>
                 <Link
                   href={n.href}
-                  className="block whitespace-nowrap rounded-full px-2 py-2 text-base font-semibold text-ink hover:bg-surface sm:px-4"
+                  className="block whitespace-nowrap rounded-full px-1.5 py-2 text-[15px] font-semibold text-ink hover:bg-surface sm:px-4 sm:text-base"
                 >
                   <span className="lg:hidden">{n.short}</span>
                   <span className="hidden lg:inline">{n.label}</span>

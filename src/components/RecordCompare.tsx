@@ -8,7 +8,7 @@ type State = "idle" | "recording" | "recorded" | "denied" | "unsupported";
  * Lets a learner record themself and replay it next to the native audio.
  * Privacy: audio stays in memory on this device. Nothing is uploaded or stored.
  */
-export function RecordCompare({ audioPath }: { audioPath: string }) {
+export function RecordCompare({ audioPath, maxSeconds = 4 }: { audioPath: string; maxSeconds?: number }) {
   const [state, setState] = useState<State>("idle");
   const [url, setUrl] = useState<string | null>(null);
   const recorder = useRef<MediaRecorder | null>(null);
@@ -43,8 +43,8 @@ export function RecordCompare({ audioPath }: { audioPath: string }) {
       recorder.current = rec;
       rec.start();
       setState("recording");
-      // Auto-stop after 4 seconds; letters and words are short
-      stopTimer.current = setTimeout(() => stop(), 4000);
+      // Auto-stop: letters and words are short, dialogues get longer
+      stopTimer.current = setTimeout(() => stop(), maxSeconds * 1000);
     } catch {
       setState("denied");
     }
