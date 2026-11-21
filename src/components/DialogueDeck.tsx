@@ -26,7 +26,7 @@ const vibes = {
 type Filter = "all" | Dialogue["mood"];
 
 const shareText = (d: Dialogue) =>
-  `🎬 “${d.ml ?? d.roman}” from ${d.film} (${d.year}). Can you read this famous Malayalam line? Crack it on Vezhu!`;
+  `🎬 “${d.ml}” from ${d.film} (${d.year}). Can you read this famous Malayalam line? Crack it on Vezhu!`;
 
 export function DialogueDeck({
   dialogues,
@@ -179,10 +179,10 @@ function DialogueTile({
         </span>
         <span className="absolute inset-x-0 bottom-0 p-3">
           <span
-            lang={d.ml ? "ml" : undefined}
-            className={`block font-bold leading-snug ${d.ml ? "font-ml text-lg" : ""}`}
+            lang="ml"
+            className="block font-ml text-lg font-bold leading-snug"
           >
-            {d.ml ?? `“${d.roman}”`}
+            {d.ml}
           </span>
           <span className="mt-1 block text-xs opacity-85">
             {d.film} ({d.year})
@@ -282,9 +282,6 @@ function DialogueCard({
             <span className="rounded-full bg-bg px-3 py-1">
               {mood.emoji} {mood.label}
             </span>
-            {!d.ml && (
-              <span className="rounded-full bg-bg px-3 py-1">🎁 Bonus</span>
-            )}
             <ShareButton
               path={`/dialogues/${d.slug}`}
               title={`${d.film}: ${d.roman}`}
@@ -301,47 +298,43 @@ function DialogueCard({
           </div>
         </header>
 
-        {d.ml ? (
-          <div>
-            <p
-              lang="ml"
-              className="flex flex-wrap gap-x-1 gap-y-2 font-ml text-3xl leading-snug sm:text-4xl"
-            >
-              {d.words.map((w, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setWord(word === i ? null : i)}
-                  aria-pressed={word === i}
-                  aria-label={`${w.ml}: ${w.en}`}
-                  className={`flex flex-col items-center rounded-xl px-2 py-1 transition ${
-                    word === i ? "bg-sun/40" : "hover:bg-bg"
-                  }`}
-                >
-                  <span>{w.ml}</span>
-                  {showRoman && w.roman !== w.ml && (
-                    <span className="font-sans text-sm text-muted">
-                      {w.roman}
-                    </span>
-                  )}
-                </button>
-              ))}
-            </p>
-            <p className="mt-2 text-sm text-muted">
-              👆 Tap a word to see what it means.{" "}
+        <div>
+          <p
+            lang="ml"
+            className="flex flex-wrap gap-x-1 gap-y-2 font-ml text-3xl leading-snug sm:text-4xl"
+          >
+            {d.words.map((w, i) => (
               <button
+                key={i}
                 type="button"
-                onClick={() => setShowRoman((s) => !s)}
-                aria-pressed={showRoman}
-                className="font-semibold text-brand underline underline-offset-4"
+                onClick={() => setWord(word === i ? null : i)}
+                aria-pressed={word === i}
+                aria-label={`${w.ml}: ${w.en}`}
+                className={`flex flex-col items-center rounded-xl px-2 py-1 transition ${
+                  word === i ? "bg-sun/40" : "hover:bg-bg"
+                }`}
               >
-                {showRoman ? "Hide sounds" : "Show sounds"}
+                <span>{w.ml}</span>
+                {showRoman && w.roman !== w.ml && (
+                  <span className="font-sans text-sm text-muted">
+                    {w.roman}
+                  </span>
+                )}
               </button>
-            </p>
-          </div>
-        ) : (
-          <p className="text-3xl font-bold">“{d.roman}”</p>
-        )}
+            ))}
+          </p>
+          <p className="mt-2 text-sm text-muted">
+            👆 Tap a word to see what it means.{" "}
+            <button
+              type="button"
+              onClick={() => setShowRoman((s) => !s)}
+              aria-pressed={showRoman}
+              className="font-semibold text-brand underline underline-offset-4"
+            >
+              {showRoman ? "Hide sounds" : "Show sounds"}
+            </button>
+          </p>
+        </div>
 
         <div aria-live="polite">
           {picked && (
@@ -439,21 +432,19 @@ function DialogueCard({
           </div>
         )}
 
-        {d.ml && (
-          <div className="mt-auto flex flex-col gap-3">
-            <SoundButton
-              audioPath={`dialogues/${d.slug}`}
-              text={d.ml}
-              label={`Hear “${d.roman}”`}
-              size="sm"
-            />
-            <RecordCompare
-              audioPath={`dialogues/${d.slug}`}
-              // Roughly a second per word, so long speeches aren't cut off
-              maxSeconds={Math.min(30, Math.max(8, d.words.length))}
-            />
-          </div>
-        )}
+        <div className="mt-auto flex flex-col gap-3">
+          <SoundButton
+            audioPath={`dialogues/${d.slug}`}
+            text={d.ml}
+            label={`Hear “${d.roman}”`}
+            size="sm"
+          />
+          <RecordCompare
+            audioPath={`dialogues/${d.slug}`}
+            // Roughly a second per word, so long speeches aren't cut off
+            maxSeconds={Math.min(30, Math.max(8, d.words.length))}
+          />
+        </div>
       </div>
     </article>
   );

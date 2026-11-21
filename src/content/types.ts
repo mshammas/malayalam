@@ -53,8 +53,8 @@ export interface Dialogue {
   film: string;
   year: number;
   character: string;
-  /** The line in Malayalam script. Missing for English-only (Manglish) lines. */
-  ml?: string;
+  /** The line in Malayalam script. Required: every card must teach some Malayalam. */
+  ml: string;
   roman: string;
   /** Tappable words, in order */
   words: DialogueWord[];

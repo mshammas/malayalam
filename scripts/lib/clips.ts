@@ -61,7 +61,6 @@ export function buildClips(): Clip[] {
   }
 
   for (const d of dialogues) {
-    if (!d.ml) continue;
     clips.push({
       path: `dialogues/${d.slug}`,
       group: "dialogues",

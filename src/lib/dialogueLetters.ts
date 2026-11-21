@@ -27,7 +27,7 @@ export function lettersIn(text: string): Letter[] {
 }
 
 export function lettersFor(d: Dialogue): Letter[] {
-  return d.ml ? lettersIn(d.ml) : [];
+  return lettersIn(d.ml);
 }
 
 /** The plan day on which the last letter this dialogue needs is taught. */
