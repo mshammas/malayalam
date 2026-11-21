@@ -106,23 +106,6 @@ export const dialogues: Dialogue[] = [
     reviewed: false,
   },
   {
-    slug: "just-kidding",
-    film: "Premalu",
-    year: 2024,
-    character: "Aadhi",
-    roman: "Just Kidding",
-    words: [],
-    literal: "Just kidding.",
-    meaning: "Aadhi's go-to escape line, shortened to JK. Said straight after something that was not a joke at all.",
-    useItWhen: "Your roast went a tiny bit too far.",
-    nugget: "Malayalis mix English into almost every sentence. That mix is called Manglish, and you'll see it in lots of lines here.",
-    mood: "comedy",
-    vibe: "anyone",
-    // YouTube: MUHAMMEDSHEFIN (fan upload)
-    youtube: { id: "E6_VfyNWLQk", short: true },
-    reviewed: false,
-  },
-  {
     slug: "shammi-hero",
     film: "Kumbalangi Nights",
     year: 2019,
