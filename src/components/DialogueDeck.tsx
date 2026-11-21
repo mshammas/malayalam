@@ -8,6 +8,7 @@ import type { Dialogue } from "@/content/types";
 import { lettersFor, unlockDay } from "@/lib/dialogueLetters";
 import { learnedSlugs, loadPlan, type SavedPlan } from "@/lib/planStorage";
 import { RecordCompare } from "./RecordCompare";
+import { ShareButton } from "./ShareButton";
 import { SoundButton } from "./SoundButton";
 import { YouTubeClip } from "./YouTubeClip";
 
@@ -23,6 +24,9 @@ const vibes = {
 } as const;
 
 type Filter = "all" | Dialogue["mood"];
+
+const shareText = (d: Dialogue) =>
+  `🎬 “${d.ml ?? d.roman}” from ${d.film} (${d.year}). Can you read this famous Malayalam line? Crack it on Vezhu!`;
 
 export function DialogueDeck({ dialogues }: { dialogues: Dialogue[] }) {
   const [saved, setSaved] = useState<SavedPlan | null>(null);
@@ -136,12 +140,12 @@ function DialogueTile({
 }) {
   const mood = moods[d.mood];
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-surface shadow-sm">
+    <article className="relative flex h-full flex-col rounded-2xl bg-surface shadow-sm">
       <button
         type="button"
         onClick={() => onOpen(false)}
         aria-label={`${d.film}: ${d.roman}. Show details`}
-        className="group relative block aspect-[9/16] w-full overflow-hidden bg-ink/90 text-left text-white"
+        className="group relative block aspect-[9/16] w-full overflow-hidden rounded-t-2xl bg-ink/90 text-left text-white"
       >
         {d.youtube ? (
           <Image
@@ -178,6 +182,16 @@ function DialogueTile({
           </span>
         </span>
       </button>
+      <div className="absolute right-2 top-2 z-10">
+        <ShareButton
+          path={`/dialogues#${d.slug}`}
+          title={`${d.film}: ${d.roman}`}
+          text={shareText(d)}
+          label={`Share: ${d.film}`}
+          iconOnly
+          className="border-transparent bg-black/55 px-2 py-0.5 text-sm text-white"
+        />
+      </div>
       <div className="flex gap-1.5 p-2">
         {d.youtube && (
           <button
@@ -197,6 +211,7 @@ function DialogueTile({
         >
           Details
         </button>
+
       </div>
     </article>
   );
@@ -263,6 +278,11 @@ function DialogueCard({
             {!d.ml && (
               <span className="rounded-full bg-bg px-3 py-1">🎁 Bonus</span>
             )}
+            <ShareButton
+              path={`/dialogues#${d.slug}`}
+              title={`${d.film}: ${d.roman}`}
+              text={shareText(d)}
+            />
             <button
               type="button"
               onClick={onClose}

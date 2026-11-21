@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ShareButton } from "@/components/ShareButton";
 import { SoundButton } from "@/components/SoundButton";
 import { getLetter } from "@/content/alphabet";
 import { contrasts, wordSlug } from "@/content/pronunciation";
@@ -25,7 +26,15 @@ export default function PronunciationPage() {
       <ul className="grid gap-6 md:grid-cols-2">
         {contrasts.map((c) => (
           <li key={c.id} id={c.id} className="flex flex-col rounded-3xl bg-surface p-6 shadow-sm">
-            <h2 className="text-2xl font-bold">{c.title}</h2>
+            <div className="flex items-start justify-between gap-3">
+              <h2 className="text-2xl font-bold">{c.title}</h2>
+              <ShareButton
+                path={`/pronunciation#${c.id}`}
+                title={c.title}
+                text={`Can you say it like a Malayali? ${c.title}: ${c.letters.map((s) => getLetter(s)?.glyph).join(" ")}`}
+                className="shrink-0 text-sm"
+              />
+            </div>
             <p className="mt-2 text-muted">{c.explanation}</p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {c.letters.map((s) => {

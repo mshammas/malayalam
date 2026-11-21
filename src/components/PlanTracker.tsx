@@ -4,10 +4,24 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { buildSchedule, DEFAULT_PLAN, getPlan, plans, sessionSteps, type PlanDay, type PlanId } from "@/content/plans";
 import { loadPlan as load, savePlan as save, type SavedPlan as Saved } from "@/lib/planStorage";
+import { ShareButton } from "./ShareButton";
+
+/** Link that opens one day of a plan for whoever it's shared with */
+const dayPath = (planId: PlanId, day: number) => `/plan?pace=${planId}&day=${day}`;
+
+function dayShareText(plan: { title: string; minutesPerDay: number }, day: PlanDay) {
+  const letters = day.kind === "learn" ? day.letters : day.reviewLetters;
+  const list = letters.map((l) => `${l.glyph} (${l.roman})`).join(", ");
+  return day.kind === "learn"
+    ? `📚 Today's Malayalam letters: ${list}. Day ${day.day} of the ${plan.title} plan, about ${plan.minutesPerDay} minutes. Let's learn them on Vezhu!`
+    : `🔁 Malayalam review day! Practise ${list}. Day ${day.day} of the ${plan.title} plan on Vezhu.`;
+}
 
 export function PlanTracker() {
   const [saved, setSaved] = useState<Saved | null>(null);
   const [preview, setPreview] = useState<PlanId>(DEFAULT_PLAN);
+  // A day someone shared with a link like /plan?pace=steady&day=5
+  const [shared, setShared] = useState<{ planId: PlanId; day: PlanDay } | null>(null);
 
   useEffect(() => {
     // Restore saved progress after hydration
@@ -15,6 +29,10 @@ export function PlanTracker() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSaved(s);
     if (s) setPreview(s.planId);
+    const q = new URLSearchParams(window.location.search);
+    const sharedPlan = getPlan(q.get("pace") ?? "");
+    const sharedDay = sharedPlan && buildSchedule(sharedPlan).find((d) => d.day === Number(q.get("day")));
+    if (sharedPlan && sharedDay) setShared({ planId: sharedPlan.id, day: sharedDay });
   }, []);
 
   function update(next: Saved | null) {
@@ -36,6 +54,27 @@ export function PlanTracker() {
 
   return (
     <div className="flex flex-col gap-10 land:gap-6">
+      {shared && (
+        <section aria-labelledby="shared-day" className="rounded-3xl border-4 border-sun bg-surface p-6 shadow-sm land:p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 id="shared-day" className="text-2xl font-bold">
+              <span aria-hidden>🎁</span> Someone shared a day with you
+            </h2>
+            <button
+              type="button"
+              onClick={() => {
+                setShared(null);
+                window.history.replaceState(null, "", "/plan");
+              }}
+              className="rounded-full border-2 border-line px-3 py-0.5 text-sm font-semibold hover:border-brand"
+            >
+              ✕ Close
+            </button>
+          </div>
+          <TodayCard day={shared.day} planId={shared.planId} heading="Shared" />
+        </section>
+      )}
+
       {!saved && (
         <section aria-labelledby="choose">
           <h2 id="choose" className="mb-4 text-center text-2xl font-bold land:mb-2 land:text-xl">
@@ -86,15 +125,24 @@ export function PlanTracker() {
             <h2 id="progress" className="text-2xl font-bold">
               {plan.emoji} {plan.title} plan
             </h2>
-            <button
-              type="button"
-              onClick={() => {
-                if (confirm("Change your plan? Your ticked days will be cleared.")) update(null);
-              }}
-              className="text-sm text-muted underline underline-offset-4"
-            >
-              Change plan
-            </button>
+            <div className="flex items-center gap-3">
+              <ShareButton
+                path="/plan"
+                title="Learn the Malayalam alphabet a few minutes a day"
+                text={`${plan.emoji} I'm learning the Malayalam alphabet on Vezhu's ${plan.title} plan: ${done.size} of ${schedule.length} days done! Learn with me, just ${plan.minutesPerDay} minutes a day.`}
+                label="Invite a friend"
+                className="text-sm"
+              />
+              <button
+                type="button"
+                onClick={() => {
+                  if (confirm("Change your plan? Your ticked days will be cleared.")) update(null);
+                }}
+                className="text-sm text-muted underline underline-offset-4"
+              >
+                Change plan
+              </button>
+            </div>
           </div>
           <p className="mt-1 text-muted">
             {done.size} of {schedule.length} days done
@@ -111,9 +159,18 @@ export function PlanTracker() {
           </div>
 
           {finished ? (
-            <p className="mt-6 text-center text-2xl font-bold">
-              🎉 You finished the whole alphabet! <span lang="ml" className="font-ml">അടിപൊളി!</span>
-            </p>
+            <div className="mt-6 flex flex-col items-center gap-3 text-center">
+              <p className="text-2xl font-bold">
+                🎉 You finished the whole alphabet! <span lang="ml" className="font-ml">അടിപൊളി!</span>
+              </p>
+              <ShareButton
+                path="/plan"
+                title="I learned the whole Malayalam alphabet!"
+                text={`🎉 I learned all ${schedule.flatMap((d) => (d.kind === "learn" ? d.letters : [])).length} Malayalam letters on Vezhu! അടിപൊളി! Can you do it too?`}
+                label="Share the news"
+                className="px-5 py-2"
+              />
+            </div>
           ) : (
             today && <TodayCard day={today} planId={plan.id} onDone={() => toggle(today.day)} />
           )}
@@ -160,19 +217,39 @@ export function PlanTracker() {
   );
 }
 
-function TodayCard({ day, planId, onDone }: { day: PlanDay; planId: PlanId; onDone: () => void }) {
+function TodayCard({
+  day,
+  planId,
+  onDone,
+  heading = "Today",
+}: {
+  day: PlanDay;
+  planId: PlanId;
+  onDone?: () => void;
+  heading?: string;
+}) {
   const plan = getPlan(planId)!;
   const steps = sessionSteps(plan, day);
   const toPractise = day.kind === "learn" ? day.letters : day.reviewLetters;
 
   return (
     <div className="mt-6">
-      <h3 className="text-xl font-bold">
-        Today: Day {day.day}{" "}
-        <span className="font-normal text-muted">
-          · about {plan.minutesPerDay} minutes{day.kind === "review" && (day.final ? " · final review" : " · review day")}
-        </span>
-      </h3>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <h3 className="text-xl font-bold">
+          {heading}: Day {day.day}{" "}
+          <span className="font-normal text-muted">
+            · {plan.emoji} {plan.title} · about {plan.minutesPerDay} minutes
+            {day.kind === "review" && (day.final ? " · final review" : " · review day")}
+          </span>
+        </h3>
+        <ShareButton
+          path={dayPath(planId, day.day)}
+          title={`Malayalam letters: Day ${day.day}`}
+          text={dayShareText(plan, day)}
+          label={heading === "Today" ? "Share today's letters" : "Share these letters"}
+          className="text-sm"
+        />
+      </div>
       <ul className="mt-4 flex flex-wrap gap-3">
         {toPractise.map((l) => (
           <li key={l.slug}>
@@ -196,13 +273,15 @@ function TodayCard({ day, planId, onDone }: { day: PlanDay; planId: PlanId; onDo
           </li>
         ))}
       </ol>
-      <button
-        type="button"
-        onClick={onDone}
-        className="mt-6 rounded-full bg-leaf px-6 py-3 font-bold text-white shadow hover:scale-105"
-      >
-        I did today&apos;s practice ✅
-      </button>
+      {onDone && (
+        <button
+          type="button"
+          onClick={onDone}
+          className="mt-6 rounded-full bg-leaf px-6 py-3 font-bold text-white shadow hover:scale-105"
+        >
+          I did today&apos;s practice ✅
+        </button>
+      )}
     </div>
   );
 }

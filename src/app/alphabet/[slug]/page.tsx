@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/JsonLd";
 import { RecordCompare } from "@/components/RecordCompare";
+import { ShareButton } from "@/components/ShareButton";
 import { SoundButton } from "@/components/SoundButton";
 import { WritingSlate } from "@/components/WritingSlate";
 import { alphabet, getLetter, getNeighbours } from "@/content/alphabet";
@@ -111,6 +112,15 @@ async function LetterContent({ params }: Props) {
           <p className="mt-2 text-center text-lg">
             Sounds like <strong>{letter.soundsLike}</strong>
           </p>
+          <div className="mt-4 land:mt-2">
+            <ShareButton
+              path={`/alphabet/${letter.slug}`}
+              title={`Malayalam letter ${letter.glyph} (${letter.roman})`}
+              text={`Learn the Malayalam letter ${letter.glyph} (${letter.roman}) with Vezhu! It sounds like ${letter.soundsLike}. ${letter.example.emoji} ${letter.example.ml} (${letter.example.roman}) means "${letter.example.en}".`}
+              label="Share this letter"
+              className="px-5 py-2"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col gap-6 land:gap-4">
