@@ -318,29 +318,6 @@ export const dialogues: Dialogue[] = [
     youtube: { id: "bEHjfKmqL8Y", short: true },
     reviewed: false,
   },
-  {
-    slug: "pakachu-poyi",
-    film: "Premam",
-    year: 2015,
-    character: "Girirajan Kozhi",
-    ml: "പകച്ചു പോയി എന്റെ ബാല്യം",
-    roman: "pakaccu pōyi ente bālyam",
-    words: [
-      { ml: "പകച്ചു", roman: "pakaccu", en: "stunned", note: "From പകയ്ക്കുക (to be stunned, to freeze in shock)." },
-      { ml: "പോയി", roman: "pōyi", en: "went, ended up", note: "Literally 'went'. After another verb it means 'ended up', like 'got stunned'." },
-      { ml: "എന്റെ", roman: "ente", en: "my" },
-      { ml: "ബാല്യം", roman: "bālyam", en: "childhood", note: "A bookish, poetic word. Everyday speech says കുട്ടിക്കാലം." },
-    ],
-    literal: "Stunned went my childhood.",
-    meaning: "My childhood was left stunned! Girirajan Kozhi, the gang's big bluffer, spins a grand sob story to impress a girl, and this over-dramatic line became a meme.",
-    useItWhen: "Your friend tells a story about a 'traumatic' moment that was really just a lost cricket match.",
-    nugget: "Verb + പോയി means 'ended up': പകച്ചു പോയി (got stunned), ഞെട്ടിപ്പോയി (got a shock), മറന്നുപോയി (forgot). Putting the verb first, as here, makes it sound dramatic.",
-    mood: "comedy",
-    vibe: "friends",
-    // YouTube: AK Creations (fan upload of the Girirajan Kozhi scene). Line credited to Sharafudheen (Onmanorama interview); not confirmed in this clip. Not yet watched by the site owner
-    youtube: { id: "c9p9fcD_kt0", short: true },
-    reviewed: false,
-  },
 ];
 
 export function getDialogue(slug: string): Dialogue | undefined {
