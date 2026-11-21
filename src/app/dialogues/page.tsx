@@ -3,9 +3,9 @@ import { DialogueDeck } from "@/components/DialogueDeck";
 import { dialogues } from "@/content/dialogues";
 
 export const metadata: Metadata = {
-  title: "Learn Malayalam from Movie Dialogues: Premam, Aavesham & More",
+  title: "Learn Malayalam from Movie Dialogues: Aavesham, Premalu & More",
   description:
-    "Read famous lines from Malayalam films like Aavesham, Premam and Manjummel Boys word by word. Learn the letters, unlock the dialogue, then say it like the star.",
+    "Read famous lines from Malayalam films like Aavesham, Premalu and Manjummel Boys word by word. Learn the letters, unlock the dialogue, then say it like the star.",
   alternates: { canonical: "/dialogues" },
 };
 
