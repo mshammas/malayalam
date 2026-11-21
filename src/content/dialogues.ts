@@ -319,6 +319,42 @@ export const dialogues: Dialogue[] = [
     youtube: { id: "ZHN5H47DCY4", short: true },
     reviewed: false,
   },
+  {
+    slug: "george-sir",
+    film: "Thudarum",
+    year: 2025,
+    character: "George Sir",
+    ml: "നിന്നെ കാണാൻ ജോർ സാർ ഇവിടെ വന്നിട്ടുണ്ട്. ദേ നിന്റെ മുമ്പിൽ ജോർ സാർ ഇങ്ങനെ നിൽക്കുന്നുണ്ടല്ലേ നീ? ജോർ സാറിനെ ഇനിയും കുറെ അറിയാനുണ്ടാ.",
+    roman: "ninne kāṇān jōr sār iviṭe vanniṭṭuṇṭŭ. dē ninte mumpil jōr sār iṅṅane nilkkunnuṇṭallē nī? jōr sārine iniyum kuṟe aṟiyānuṇṭā.",
+    words: [
+      { ml: "നിന്നെ", roman: "ninne", en: "you", note: "നീ (you) becomes നിന്നെ when you're the one being seen." },
+      { ml: "കാണാൻ", roman: "kāṇān", en: "to see" },
+      { ml: "ജോർ സാർ", roman: "jōr sār", en: "George Sir", note: "How he says his own name, ജോർജ് സാർ, with the end swallowed. He talks about himself like the boss." },
+      { ml: "ഇവിടെ", roman: "iviṭe", en: "here" },
+      { ml: "വന്നിട്ടുണ്ട്.", roman: "vanniṭṭuṇṭŭ", en: "has come", note: "വന്നു (came) + ‑ഇട്ടുണ്ട് (has done)." },
+      { ml: "ദേ", roman: "dē", en: "look!", note: "A quick 'here, look' to grab attention." },
+      { ml: "നിന്റെ", roman: "ninte", en: "your" },
+      { ml: "മുമ്പിൽ", roman: "mumpil", en: "in front of", note: "മുമ്പ് (front) + ‑ഇൽ (at)." },
+      { ml: "ജോർ സാർ", roman: "jōr sār", en: "George Sir" },
+      { ml: "ഇങ്ങനെ", roman: "iṅṅane", en: "like this" },
+      { ml: "നിൽക്കുന്നുണ്ടല്ലേ", roman: "nilkkunnuṇṭallē", en: "is standing, isn't he?", note: "നിൽക്കുന്നു (is standing) + ഉണ്ട് + അല്ലേ ('right?')." },
+      { ml: "നീ?", roman: "nī", en: "you (see)?", note: "Tagged on at the end, like 'right, you?'" },
+      { ml: "ജോർ സാറിനെ", roman: "jōr sārine", en: "George Sir (as the one known)", note: "സാർ + ‑ഇനെ, the ending for the person something is done to." },
+      { ml: "ഇനിയും", roman: "iniyum", en: "still more", note: "ഇനി (from now) + ‑ഉം (still)." },
+      { ml: "കുറെ", roman: "kuṟe", en: "a lot" },
+      { ml: "അറിയാനുണ്ടാ.", roman: "aṟiyānuṇṭā", en: "there's to know, man", note: "അറിയാൻ (to know) + ഉണ്ട് (there is) + a casual ‑ആ on the end." },
+    ],
+    literal:
+      "To see you, George Sir has come here. Look, in front of you George Sir is standing like this, right, you? There's still a lot more to know about George Sir.",
+    meaning: "George Sir, all calm menace, talking about himself like a legend: you haven't seen anything of me yet.",
+    useItWhen: "Your friend thinks they've completely figured you out.",
+    nugget: "‑എ / ‑ഇനെ marks the person something is done to: നീ → നിന്നെ (to see you), സാർ → സാറിനെ (to know Sir).",
+    mood: "mass",
+    vibe: "friends",
+    // YouTube: VRE CREATION (fan edit of the film scene, Malayalam captions burned in)
+    youtube: { id: "gtJz5auYojI", short: true },
+    reviewed: false,
+  },
 ];
 
 export function getDialogue(slug: string): Dialogue | undefined {
