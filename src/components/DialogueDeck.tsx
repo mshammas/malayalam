@@ -28,19 +28,26 @@ type Filter = "all" | Dialogue["mood"];
 const shareText = (d: Dialogue) =>
   `🎬 “${d.ml ?? d.roman}” from ${d.film} (${d.year}). Can you read this famous Malayalam line? Crack it on Vezhu!`;
 
-export function DialogueDeck({ dialogues }: { dialogues: Dialogue[] }) {
+export function DialogueDeck({
+  dialogues,
+  initialOpen,
+}: {
+  dialogues: Dialogue[];
+  /** Card to show in full on load, as on /dialogues/<slug> */
+  initialOpen?: string;
+}) {
   const [saved, setSaved] = useState<SavedPlan | null>(null);
   const [filter, setFilter] = useState<Filter>("all");
   // The one card shown in full; play says whether its clip starts at once
   const [open, setOpen] = useState<{ slug: string; play: boolean } | null>(
-    null,
+    initialOpen ? { slug: initialOpen, play: false } : null,
   );
 
   useEffect(() => {
     // Read plan progress after hydration
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSaved(loadPlan());
-    // /dialogues#slug opens that card
+    // Older shared links: /dialogues#slug opens that card
     const hash = decodeURIComponent(window.location.hash.slice(1));
     if (hash && dialogues.some((d) => d.slug === hash))
       setOpen({ slug: hash, play: false });
@@ -184,7 +191,7 @@ function DialogueTile({
       </button>
       <div className="absolute right-2 top-2 z-10">
         <ShareButton
-          path={`/dialogues#${d.slug}`}
+          path={`/dialogues/${d.slug}`}
           title={`${d.film}: ${d.roman}`}
           text={shareText(d)}
           label={`Share: ${d.film}`}
@@ -279,7 +286,7 @@ function DialogueCard({
               <span className="rounded-full bg-bg px-3 py-1">🎁 Bonus</span>
             )}
             <ShareButton
-              path={`/dialogues#${d.slug}`}
+              path={`/dialogues/${d.slug}`}
               title={`${d.film}: ${d.roman}`}
               text={shareText(d)}
             />

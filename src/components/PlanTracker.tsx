@@ -2,12 +2,17 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { buildSchedule, DEFAULT_PLAN, getPlan, plans, sessionSteps, type PlanDay, type PlanId } from "@/content/plans";
+import { buildSchedule, DEFAULT_PLAN, getPlan, getPlanDay, plans, sessionSteps, type PlanDay, type PlanId } from "@/content/plans";
 import { loadPlan as load, savePlan as save, type SavedPlan as Saved } from "@/lib/planStorage";
 import { ShareButton } from "./ShareButton";
 
 /** Link that opens one day of a plan for whoever it's shared with */
-const dayPath = (planId: PlanId, day: number) => `/plan?pace=${planId}&day=${day}`;
+const dayPath = (planId: PlanId, day: number) => `/plan/${planId}/${day}`;
+
+function findDay(pace: string | null, day: number) {
+  const found = getPlanDay(pace ?? "", day);
+  return found ? { planId: found.plan.id, day: found.day } : null;
+}
 
 function dayShareText(plan: { title: string; minutesPerDay: number }, day: PlanDay) {
   const letters = day.kind === "learn" ? day.letters : day.reviewLetters;
@@ -17,11 +22,11 @@ function dayShareText(plan: { title: string; minutesPerDay: number }, day: PlanD
     : `🔁 Malayalam review day! Practise ${list}. Day ${day.day} of the ${plan.title} plan on Vezhu.`;
 }
 
-export function PlanTracker() {
+export function PlanTracker({ sharedDay }: { sharedDay?: { planId: PlanId; day: number } }) {
   const [saved, setSaved] = useState<Saved | null>(null);
   const [preview, setPreview] = useState<PlanId>(DEFAULT_PLAN);
-  // A day someone shared with a link like /plan?pace=steady&day=5
-  const [shared, setShared] = useState<{ planId: PlanId; day: PlanDay } | null>(null);
+  // A day someone shared with a link like /plan/steady/5
+  const [shared, setShared] = useState(() => (sharedDay ? findDay(sharedDay.planId, sharedDay.day) : null));
 
   useEffect(() => {
     // Restore saved progress after hydration
@@ -29,10 +34,10 @@ export function PlanTracker() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSaved(s);
     if (s) setPreview(s.planId);
+    // Older shared links: /plan?pace=steady&day=5
     const q = new URLSearchParams(window.location.search);
-    const sharedPlan = getPlan(q.get("pace") ?? "");
-    const sharedDay = sharedPlan && buildSchedule(sharedPlan).find((d) => d.day === Number(q.get("day")));
-    if (sharedPlan && sharedDay) setShared({ planId: sharedPlan.id, day: sharedDay });
+    const fromQuery = findDay(q.get("pace"), Number(q.get("day")));
+    if (fromQuery) setShared(fromQuery);
   }, []);
 
   function update(next: Saved | null) {
@@ -60,16 +65,13 @@ export function PlanTracker() {
             <h2 id="shared-day" className="text-2xl font-bold">
               <span aria-hidden>🎁</span> Someone shared a day with you
             </h2>
-            <button
-              type="button"
-              onClick={() => {
-                setShared(null);
-                window.history.replaceState(null, "", "/plan");
-              }}
+            <Link
+              href="/plan"
+              onClick={() => setShared(null)}
               className="rounded-full border-2 border-line px-3 py-0.5 text-sm font-semibold hover:border-brand"
             >
               ✕ Close
-            </button>
+            </Link>
           </div>
           <TodayCard day={shared.day} planId={shared.planId} heading="Shared" />
         </section>

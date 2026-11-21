@@ -59,6 +59,17 @@ export function buildSchedule(plan: LearningPlan, letters: Letter[] = alphabet):
   return days;
 }
 
+/** One day of a plan, as linked from /plan/<pace>/<day> */
+export function getPlanDay(planId: string, day: number): { plan: LearningPlan; day: PlanDay } | undefined {
+  const plan = getPlan(planId);
+  const found = plan && buildSchedule(plan).find((d) => d.day === day);
+  return plan && found ? { plan, day: found } : undefined;
+}
+
+/** Every plan day, for prerendering the shareable day pages */
+export const allPlanDays = () =>
+  plans.flatMap((p) => buildSchedule(p).map((d) => ({ pace: p.id, day: String(d.day) })));
+
 /** What to do in a session, scaled to the plan's minutes. */
 export function sessionSteps(plan: LearningPlan, day: PlanDay): { minutes: number; text: string }[] {
   const m = plan.minutesPerDay;

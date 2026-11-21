@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { alphabet } from "@/content/alphabet";
+import { dialogues } from "@/content/dialogues";
 import { absoluteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -18,6 +19,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: absoluteUrl(`/alphabet/${l.slug}`),
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    ...dialogues.map((d) => ({
+      url: absoluteUrl(`/dialogues/${d.slug}`),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
   ];
 }
