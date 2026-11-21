@@ -355,6 +355,37 @@ export const dialogues: Dialogue[] = [
     youtube: { id: "gtJz5auYojI", short: true },
     reviewed: false,
   },
+  {
+    slug: "communism",
+    film: "Ramaleela",
+    year: 2017,
+    character: "Ramanunni, asked about bad habits",
+    ml: "അല്ല, എല്ലാം അറിഞ്ഞിരിക്കണമല്ലോ. ദുശ്ശീലം വല്ലതും ഉണ്ടോ? ഉണ്ടായിരുന്നു. ഇപ്പോ നിർത്തി. അടി? കമ്മ്യൂണിസം.",
+    roman: "alla, ellām aṟiññirikkaṇamallō. duśśīlam vallatum uṇṭō? uṇṭāyirunnu. ippō nirtti. aṭi? kammyūṇisam.",
+    words: [
+      { ml: "അല്ല,", roman: "alla", en: "well,", note: "Literally 'no', but at the start of a sentence it just means 'well...'." },
+      { ml: "എല്ലാം", roman: "ellām", en: "everything" },
+      { ml: "അറിഞ്ഞിരിക്കണമല്ലോ.", roman: "aṟiññirikkaṇamallō", en: "we ought to know, right", note: "അറിഞ്ഞിരിക്കണം (must know) + അല്ലോ (after all)." },
+      { ml: "ദുശ്ശീലം", roman: "duśśīlam", en: "bad habit", note: "ദു‑ (bad) + ശീലം (habit)." },
+      { ml: "വല്ലതും", roman: "vallatum", en: "any" },
+      { ml: "ഉണ്ടോ?", roman: "uṇṭō", en: "is there?", note: "ഉണ്ട് (there is) + ‑ഓ (question)." },
+      { ml: "ഉണ്ടായിരുന്നു.", roman: "uṇṭāyirunnu", en: "there was", note: "The past of ഉണ്ട്." },
+      { ml: "ഇപ്പോ", roman: "ippō", en: "now", note: "The spoken form of ഇപ്പോൾ." },
+      { ml: "നിർത്തി.", roman: "nirtti", en: "(I) stopped", note: "From നിർത്തുക (to stop)." },
+      { ml: "അടി?", roman: "aṭi", en: "fighting?", note: "അടി means a hit or a fight." },
+      { ml: "കമ്മ്യൂണിസം.", roman: "kammyūṇisam", en: "Communism" },
+    ],
+    literal:
+      "Well, we ought to know everything, right? Any bad habits? There was one. I stopped now. Fighting? Communism.",
+    meaning: "Asked about bad habits, Ramanunni, who has just quit the party, deadpans that his old habit was communism.",
+    useItWhen: "Someone asks about the hobby you've 'totally quit'.",
+    nugget: "One word, three answers: ഉണ്ട് (there is) → ഉണ്ടോ? (is there?) → ഉണ്ടായിരുന്നു (there was).",
+    mood: "comedy",
+    vibe: "anyone",
+    // YouTube: series mania (fan upload). No burned-in text: line from auto-captions, wording confirmed by the site owner
+    youtube: { id: "Q5p6ixH_9QI", short: true },
+    reviewed: false,
+  },
 ];
 
 export function getDialogue(slug: string): Dialogue | undefined {
