@@ -52,6 +52,27 @@ export const dialogues: Dialogue[] = [
     reviewed: false,
   },
   {
+    slug: "loose-adikkeda",
+    film: "Manjummel Boys",
+    year: 2024,
+    character: "Abhilash, as the rope jams in the rocks",
+    ml: "ലൂസ് അടിക്കെടാ",
+    roman: "lūs aṭikkeṭā",
+    words: [
+      { ml: "ലൂസ്", roman: "lūs", en: "slack (loose)", note: "The English word 'loose', written in Malayalam letters." },
+      { ml: "അടിക്കെടാ", roman: "aṭikkeṭā", en: "give it, man!", note: "അടിക്ക് (hit, do) + എടാ (hey man). Next to an English word, അടിക്കുക just means 'do' or 'give'." },
+    ],
+    literal: "Hit loose, man!",
+    meaning: "The rope is jammed between the rocks and the friends can't haul Subhash up. Abhilash shouts a vadamvali (tug-of-war) call: give the rope some slack. It frees the rope.",
+    useItWhen: "A drawer is stuck and your friend just keeps yanking it harder.",
+    nugget: "അടിക്കുക means 'to hit', but glued to an English word it just means 'do': ലൂസ് അടിക്കുക (give slack), സെൽഫി അടിക്കുക (take a selfie), ബോറടിക്കുക (get bored).",
+    mood: "mass",
+    vibe: "friends",
+    // YouTube: MKrish Studios (fan upload of the climax rope-pull). Line confirmed by IMDb trivia and the film's score ("Loose Adikkeda"); clip not yet watched by the site owner
+    youtube: { id: "kmmnE5V4EQ0", short: true },
+    reviewed: false,
+  },
+  {
     slug: "kandathellam-poi",
     film: "Malaikottai Vaaliban",
     year: 2024,
