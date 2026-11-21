@@ -15,6 +15,7 @@ export function YouTubeClip({
   short,
   thumbnail,
   title,
+  autoPlay = false,
 }: {
   id: string;
   start?: number;
@@ -23,8 +24,10 @@ export function YouTubeClip({
   /** Local poster image, e.g. /thumbnails/dialogues/<slug>.jpg */
   thumbnail?: string;
   title: string;
+  /** Skip the poster and start playing straight away */
+  autoPlay?: boolean;
 }) {
-  const [on, setOn] = useState(false);
+  const [on, setOn] = useState(autoPlay);
   const shape = short ? "mx-auto aspect-[9/16] w-full max-w-60" : "aspect-video w-full";
 
   if (!on) {
