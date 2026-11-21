@@ -143,7 +143,7 @@ function DialogueCard({
                 }`}
               >
                 <span>{w.ml}</span>
-                {showRoman && <span className="font-sans text-sm text-muted">{w.roman}</span>}
+                {showRoman && w.roman !== w.ml && <span className="font-sans text-sm text-muted">{w.roman}</span>}
               </button>
             ))}
           </p>
@@ -170,7 +170,7 @@ function DialogueCard({
               <span lang="ml" className="font-ml text-2xl">
                 {picked.ml}
               </span>{" "}
-              <span className="text-muted">({picked.roman})</span> = <strong>{picked.en}</strong>
+              {picked.roman !== picked.ml && <span className="text-muted">({picked.roman})</span>} = <strong>{picked.en}</strong>
             </p>
             {picked.note && <p className="mt-1 text-sm text-muted">{picked.note}</p>}
           </div>
@@ -246,7 +246,11 @@ function DialogueCard({
       {d.ml && (
         <div className="mt-auto flex flex-col gap-3">
           <SoundButton audioPath={`dialogues/${d.slug}`} text={d.ml} label={`Hear “${d.roman}”`} size="sm" />
-          <RecordCompare audioPath={`dialogues/${d.slug}`} maxSeconds={8} />
+          <RecordCompare
+            audioPath={`dialogues/${d.slug}`}
+            // Roughly a second per word, so long speeches aren't cut off
+            maxSeconds={Math.min(30, Math.max(8, d.words.length))}
+          />
         </div>
       )}
     </article>
