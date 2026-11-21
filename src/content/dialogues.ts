@@ -295,6 +295,52 @@ export const dialogues: Dialogue[] = [
     youtube: { id: "Lpqdm1yDepE", short: true },
     reviewed: false,
   },
+  {
+    slug: "ottakku-vazhi-vetti",
+    film: "Varshangalkku Shesham",
+    year: 2024,
+    character: "Nithin Molly, a fading film star",
+    ml: "ഒറ്റയ്ക്ക് വഴി വെട്ടി വന്നവനാടാ",
+    roman: "oṯṟaykkŭ vaḻi veṭṭi vannavanāṭā",
+    words: [
+      { ml: "ഒറ്റയ്ക്ക്", roman: "oṯṟaykkŭ", en: "alone", note: "ഒറ്റ (single, one) + ‑ക്ക്." },
+      { ml: "വഴി", roman: "vaḻi", en: "a path, the way" },
+      { ml: "വെട്ടി", roman: "veṭṭi", en: "having cut", note: "From വെട്ടുക (to cut, to hack through)." },
+      { ml: "വന്നവനാടാ", roman: "vannavanāṭā", en: "is the guy who came, man", note: "വന്ന (who came) + അവൻ (he) + ആണ് (is) + എടാ (hey man), all run together." },
+    ],
+    literal: "Alone path having-cut came-guy-is-man.",
+    meaning: "I'm the guy who got here on my own, cutting my own path. Nivin Pauly's washed-up star fires it at nepotism in the film industry, and it went viral in 2024.",
+    useItWhen: "Someone asks who helped you with the project you did completely solo.",
+    nugget: "Verb + അവൻ makes 'the one who...': വന്ന + അവൻ = വന്നവൻ (the one who came), ജയിച്ചവൻ (the one who won), പറഞ്ഞവൻ (the one who said it).",
+    mood: "mass",
+    vibe: "friends",
+    // YouTube: VICE VORTEX (fan edit of the film scene). Wording from Malayalam video titles and Kerala Kaumudi / Onmanorama coverage; may end with ഞാൻ. Clip not yet watched by the site owner
+    youtube: { id: "bEHjfKmqL8Y", short: true },
+    reviewed: false,
+  },
+  {
+    slug: "pakachu-poyi",
+    film: "Premam",
+    year: 2015,
+    character: "Girirajan Kozhi",
+    ml: "പകച്ചു പോയി എന്റെ ബാല്യം",
+    roman: "pakaccu pōyi ente bālyam",
+    words: [
+      { ml: "പകച്ചു", roman: "pakaccu", en: "stunned", note: "From പകയ്ക്കുക (to be stunned, to freeze in shock)." },
+      { ml: "പോയി", roman: "pōyi", en: "went, ended up", note: "Literally 'went'. After another verb it means 'ended up', like 'got stunned'." },
+      { ml: "എന്റെ", roman: "ente", en: "my" },
+      { ml: "ബാല്യം", roman: "bālyam", en: "childhood", note: "A bookish, poetic word. Everyday speech says കുട്ടിക്കാലം." },
+    ],
+    literal: "Stunned went my childhood.",
+    meaning: "My childhood was left stunned! Girirajan Kozhi, the gang's big bluffer, spins a grand sob story to impress a girl, and this over-dramatic line became a meme.",
+    useItWhen: "Your friend tells a story about a 'traumatic' moment that was really just a lost cricket match.",
+    nugget: "Verb + പോയി means 'ended up': പകച്ചു പോയി (got stunned), ഞെട്ടിപ്പോയി (got a shock), മറന്നുപോയി (forgot). Putting the verb first, as here, makes it sound dramatic.",
+    mood: "comedy",
+    vibe: "friends",
+    // YouTube: AK Creations (fan upload of the Girirajan Kozhi scene). Line credited to Sharafudheen (Onmanorama interview); not confirmed in this clip. Not yet watched by the site owner
+    youtube: { id: "c9p9fcD_kt0", short: true },
+    reviewed: false,
+  },
 ];
 
 export function getDialogue(slug: string): Dialogue | undefined {
