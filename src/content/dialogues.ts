@@ -291,26 +291,6 @@ export const dialogues: Dialogue[] = [
     youtube: { id: "Lpqdm1yDepE", short: true },
     reviewed: false,
   },
-  {
-    slug: "chambikko",
-    film: "Bheeshma Parvam",
-    year: 2022,
-    character: "Michael, posing for a family photo",
-    ml: "ചാമ്പിക്കോ",
-    roman: "cāmpikkō",
-    words: [
-      { ml: "ചാമ്പിക്കോ", roman: "cāmpikkō", en: "go ahead, click it", note: "Slang ചാമ്പുക (to whack, to go at something) + ‑ക്കോ (go ahead and...)." },
-    ],
-    literal: "Go ahead and whack it.",
-    meaning: "Michael, lined up with the whole family for a photo, drawls one word to the photographer: go on, click. It became the selfie caption of 2022.",
-    useItWhen: "The whole family is finally lined up for the group photo.",
-    nugget: "Add ‑ഓ / ‑ക്കോ to say 'go ahead and...': ഇരുന്നോ (go ahead, sit), എടുത്തോ (go ahead, take it), ചാമ്പിക്കോ (go ahead, click).",
-    mood: "mass",
-    vibe: "friends",
-    // YouTube: ARB EDITZZZ 2.0 (fan edit). Line and photo-scene context confirmed by Onmanorama and The News Minute; clip not yet watched by the site owner
-    youtube: { id: "3j4aA3S3aEA", short: true },
-    reviewed: false,
-  },
 ];
 
 export function getDialogue(slug: string): Dialogue | undefined {
